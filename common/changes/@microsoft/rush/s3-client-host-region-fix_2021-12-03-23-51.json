@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@microsoft/rush",
+      "comment": "[@rushstack/rush-amazon-s3-build-cache-plugin] fix host formatting for non-default regions",
+      "type": "none"
+    }
+  ],
+  "packageName": "@microsoft/rush"
+}
