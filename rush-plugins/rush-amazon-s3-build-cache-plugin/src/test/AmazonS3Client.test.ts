@@ -19,6 +19,12 @@ const DUMMY_OPTIONS: IAmazonS3BuildCacheProviderOptions = {
   s3Bucket: 'test-s3-bucket'
 };
 
+const DUMMY_OPTIONS_WITH_NON_DEFAULT_REGION: IAmazonS3BuildCacheProviderOptions = {
+  ...DUMMY_OPTIONS_WITHOUT_BUCKET,
+  s3Bucket: 'test-s3-bucket',
+  s3Region: 'us-west-2'
+};
+
 class MockedDate extends Date {
   public constructor() {
     super(2020, 3, 18, 12, 32, 42, 493);
@@ -362,6 +368,22 @@ describe('AmazonS3Client', () => {
           secretAccessKey: 'secretAccessKey',
           sessionToken: 'sessionToken'
         });
+      });
+    });
+
+    describe('Format host', () => {
+      it('Omits region if us-east-1', () => {
+        const client = new AmazonS3Client(undefined, DUMMY_OPTIONS, webClient);
+        const host = client.getHost();
+        expect(host).toBe(`${DUMMY_OPTIONS.s3Bucket}.s3.amazonaws.com`);
+      });
+
+      it('Post-fixes region with "."', () => {
+        const client = new AmazonS3Client(undefined, DUMMY_OPTIONS_WITH_NON_DEFAULT_REGION, webClient);
+        const host = client.getHost();
+        expect(host).toBe(
+          `${DUMMY_OPTIONS_WITH_NON_DEFAULT_REGION.s3Bucket}.s3.${DUMMY_OPTIONS_WITH_NON_DEFAULT_REGION.s3Region}.amazonaws.com`
+        );
       });
     });
   });

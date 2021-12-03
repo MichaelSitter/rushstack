@@ -97,7 +97,7 @@ export class AmazonS3Client {
   ): Promise<fetch.Response> {
     const isoDateString: IIsoDateString = this._getIsoDateString();
     const bodyHash: string = this._getSha256(body);
-    const host: string = this._getHost();
+    const host: string = this.getHost();
     const headers: fetch.Headers = new fetch.Headers();
     headers.set(DATE_HEADER_NAME, isoDateString.dateTime);
     headers.set(CONTENT_HASH_HEADER_NAME, bodyHash);
@@ -228,7 +228,7 @@ export class AmazonS3Client {
     throw new Error(`Amazon S3 responded with status code ${response.status} (${response.statusText})`);
   }
 
-  private _getHost(): string {
+  public getHost(): string {
     if (this._s3Region === DEFAULT_S3_REGION) {
       return `${this._s3Bucket}.s3.amazonaws.com`;
     } else {
