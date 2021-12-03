@@ -232,7 +232,7 @@ export class AmazonS3Client {
     if (this._s3Region === DEFAULT_S3_REGION) {
       return `${this._s3Bucket}.s3.amazonaws.com`;
     } else {
-      return `${this._s3Bucket}.s3-${this._s3Region}.amazonaws.com`;
+      return `${this._s3Bucket}.s3.${this._s3Region}.amazonaws.com`;
     }
   }
 
